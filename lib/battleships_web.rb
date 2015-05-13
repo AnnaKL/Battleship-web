@@ -8,22 +8,20 @@ class BattleshipsWeb < Sinatra::Base
     erb :index
   end
 
-  get '/New_Game' do
+  get '/game/new' do
     erb :New_Game
   end
 
-  post '/New_Game' do
+  post '/game/new' do
     @visitor = params[:name]
-    if @visitor.nil?
-      @message = "No name"
-      erb :New_Game
+    if @visitor && !@visitor.empty?
+      redirect '/board'
     else
-      @message = "You have a name"
-      redirect '/Board'
+      redirect '/game/new'
     end
   end
 
-  get '/Board' do
+  get '/board' do
     erb :Board
   end
 

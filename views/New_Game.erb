@@ -1,13 +1,7 @@
 <div>
-<form action='/New_Game' method='post'>
+<form action='/game/new' method='post'>
   What's your name?
   <input type="text" name="name">
   <input type="submit" value="Submit">
 </form>
 </div>
-
-<div>
-<% if @message %>
-  <%=@message %>
-  <% end %>
-  </div>

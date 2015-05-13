@@ -1,6 +1,10 @@
 require 'sinatra/base'
+require 'battleships'
 
 class BattleshipsWeb < Sinatra::Base
+  @@game = Game.new Player, Board
+  @@ship = Ship.new :ship
+  @@player_1 = Player.new
 
   set :views, Proc.new { File.join(root, "..", "views")}
 
@@ -22,8 +26,18 @@ class BattleshipsWeb < Sinatra::Base
   end
 
   get '/board' do
+    @board = @@game.own_board_view(@@game.player_1)
     erb :Board
   end
+
+
+  post '/board' do
+    @coordinate=params[:coordinate]
+    @orientation=params[:orientation]
+    @@game.player_1.place_ship(Ship.battleship, @coordinate, @orientation)
+
+  end
+
 
 
 

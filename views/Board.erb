@@ -1,0 +1,12 @@
+
+<h1> Welcome <%= @visitor%> </h1>
+
+<pre> <%= @board %> </pre>
+
+<form action="/board" method="post">
+  Please choose a coordinate:
+  <input type="text" name="coordinate">
+  Please choose an orientation:
+  <input type="text" name="orientation">
+  <input type="submit" value="submit">
+</form>

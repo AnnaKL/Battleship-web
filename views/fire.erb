@@ -1,0 +1,8 @@
+<h1> Please fire at your opponent bord </h1>
+<pre><%= @board %> </pre>
+
+<form action="/fire" method="post">
+  Please choose a coordinate for shooting:
+  <input type="text" name="shoot_coordinate">
+  <input type="submit" value="submit">
+</form>

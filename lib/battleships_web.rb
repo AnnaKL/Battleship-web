@@ -27,17 +27,26 @@ class BattleshipsWeb < Sinatra::Base
   end
 
   get '/board' do
-    @board = @@game.own_board_view(@@game.player_1)
+    @board = @@game.own_board_view(@@game.player_2)
     erb :Board
   end
 
   post '/board' do
     @coordinate=params[:coordinate]
-    @shoot_coordinate=params[:shoot_coordinate]
-       @@game.player_1.place_ship(Ship.destroyer, @coordinate, :orientation)
-       @@game.player_2.shoot @shoot_coordinate.to_sym
+       @@game.player_2.place_ship(Ship.destroyer, @coordinate.to_sym, :orientation)
+       redirect '/board'
+     end
 
-  end
+     get '/fire' do
+      @board = @@game.opponent_board_view(@@game.player_1)
+      erb :fire
+    end
+
+    post '/fire' do
+      @shoot_coordinate=params[:shoot_coordinate]
+      @@game.player_1.shoot @shoot_coordinate.to_sym
+      redirect '/fire'
+     end
 
 
 

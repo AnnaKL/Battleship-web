@@ -5,6 +5,7 @@ class BattleshipsWeb < Sinatra::Base
   @@game = Game.new Player, Board
   @@ship = Ship.new :ship
   @@player_1 = Player.new
+  @@player_2 = Player.new
 
   set :views, Proc.new { File.join(root, "..", "views")}
 
@@ -30,11 +31,11 @@ class BattleshipsWeb < Sinatra::Base
     erb :Board
   end
 
-
   post '/board' do
     @coordinate=params[:coordinate]
-    @orientation=params[:orientation]
-    @@game.player_1.place_ship(Ship.battleship, @coordinate, @orientation)
+    @shoot_coordinate=params[:shoot_coordinate]
+       @@game.player_1.place_ship(Ship.destroyer, @coordinate, :orientation)
+       @@game.player_2.shoot @shoot_coordinate.to_sym
 
   end
 

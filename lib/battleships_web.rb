@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'battleships'
 
+
 class BattleshipsWeb < Sinatra::Base
   @@game = Game.new Player, Board
   @@ship = Ship.new :ship
@@ -32,32 +33,29 @@ class BattleshipsWeb < Sinatra::Base
   end
 
   post '/board' do
-    # @coordinate=params[:coordinate]
-    @ship=params[:ship]
+    @ship = params[:ship]
     x = ('A'..'J').to_a.sample
     y = (1..10).to_a.sample
     coordinate = "#{x}#{y}".to_sym
     ship = [Ship.destroyer, Ship.submarine, Ship.cruiser, Ship.battleship, Ship.aircraft_carrier].sample
-       @@game.player_2.place_ship(ship, coordinate, :orientation)
-       redirect '/board'
-     end
-
-     get '/fire' do
-      @board = @@game.opponent_board_view(@@game.player_1)
-      erb :fire
+    begin
+      @@game.player_2.place_ship(ship, coordinate, :orientation)
+    rescue RuntimeError
+      redirect '/board'
     end
+    redirect '/board'
+  end
 
-    post '/fire' do
-      @shoot_coordinate=params[:shoot_coordinate]
-      @@game.player_1.shoot @shoot_coordinate.to_sym
-      redirect '/fire'
-     end
+  get '/fire' do
+    @board = @@game.opponent_board_view(@@game.player_1)
+    erb :fire
+  end
 
+  post '/fire' do
+    @shoot_coordinate=params[:shoot_coordinate]
+    @@game.player_1.shoot @shoot_coordinate.to_sym
+    redirect '/fire'
+  end
 
-
-
-
-
-  # start the server if ruby file executed directly
   run! if app_file == $0
 end

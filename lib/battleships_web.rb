@@ -32,8 +32,13 @@ class BattleshipsWeb < Sinatra::Base
   end
 
   post '/board' do
-    @coordinate=params[:coordinate]
-       @@game.player_2.place_ship(Ship.destroyer, @coordinate.to_sym, :orientation)
+    # @coordinate=params[:coordinate]
+    @ship=params[:ship]
+    x = ('A'..'J').to_a.sample
+    y = (1..10).to_a.sample
+    coordinate = "#{x}#{y}".to_sym
+    ship = [Ship.destroyer, Ship.submarine, Ship.cruiser, Ship.battleship, Ship.aircraft_carrier].sample
+       @@game.player_2.place_ship(ship, coordinate, :orientation)
        redirect '/board'
      end
 
